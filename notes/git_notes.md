@@ -6,15 +6,15 @@ Save your current work into a changeset.
 Tagging
 =======
 
-`git tag -a "<tag name>" -m "<message>"
+`git tag -a "<tag name>" -m "<message>"`
  
 For example:
 
-`git tag v1.0.0 -m "Release 1"
+`git tag v1.0.0 -m "Release 1"`
 
 Then push the tags to the remote server
 
-`git push origin --tags
+`git push origin --tags`
 
 Reset
 =====
@@ -23,7 +23,7 @@ Reset will actually modify the history and brings HEAD to the specified commit.
 
 Ex: HEAD becomes d0cb69
 
-`git reset d0cb69
+`git reset d0cb69`
 
 Three reset modes:
 
@@ -38,4 +38,4 @@ Revert will modify your files to make it identical to a different version
 
 Example: Can revert multiple unrelated commits in a single command.
 
-`git revert 0b810a eca5cd
+`git revert 0b810a eca5cd`
