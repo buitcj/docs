@@ -95,7 +95,47 @@ The former just has the files within db, but the latter has the db directory inc
 Bisect
 ======
 
-Commands for finding binary searching for  a checkin that broke your feature.
+Commands for finding binary searching for a checkin that broke your feature. At each step it bisects the remaining search space for you and you have to tell it whether the commit is good or bad, when talking about correctness or functionality.  For finding when something was introduced, you can also use the syntax "new" and "old".
+
+```
+jbu@jbot:~/git_jbu/rebase_test$ git bisect start
+jbu@jbot:~/git_jbu/rebase_test$ git bisect bad
+jbu@jbot:~/git_jbu/rebase_test$ git bisect next
+Bisecting: 4 revisions left to test after this (roughly 2 steps)
+[8d25e2813c54afca4946bd2ba724112f7d1a5bec] 5
+jbu@jbot:~/git_jbu/rebase_test$ ./test.sh 
+false
+jbu@jbot:~/git_jbu/rebase_test$ git bisect bad
+jbu@jbot:~/git_jbu/rebase_test$ git bisect next
+Bisecting: 2 revisions left to test after this (roughly 1 step)
+[b88ac5cd3805abce9d81cdd1ca54321ac0d902e5] 2
+jbu@jbot:~/git_jbu/rebase_test$ ./test.sh 
+true
+jbu@jbot:~/git_jbu/rebase_test$ git bisect good
+Bisecting: 0 revisions left to test after this (roughly 1 step)
+[bd948a402226300b789ed8a2f1cfcc122846ac8d] 4
+jbu@jbot:~/git_jbu/rebase_test$ ./test.sh 
+false
+jbu@jbot:~/git_jbu/rebase_test$ git bisect bad
+Bisecting: 0 revisions left to test after this (roughly 0 steps)
+[563e7a286d111c54a14462b74951a112c1969326] 3
+jbu@jbot:~/git_jbu/rebase_test$ ./test.sh 
+false
+jbu@jbot:~/git_jbu/rebase_test$ git bisect bad
+563e7a286d111c54a14462b74951a112c1969326 is the first bad commit
+commit 563e7a286d111c54a14462b74951a112c1969326
+Author: buitcj <julianbui@gmail.com>
+Date:   Fri Dec 30 22:47:20 2016 +0700
+
+    3
+
+:100755 100755 f44a70ddab941428ae9df026356ac30db8c05cfd 7abed58a41496afcbe73f0a737493e3066a68ce2 M	test.sh
+jbu@jbot:~/git_jbu/rebase_test$ git bisect reset
+Previous HEAD position was 563e7a2... 3
+Switched to branch 'master'
+Your branch is up-to-date with 'origin/master'.
+
+```
 
 Squash
 ======
