@@ -58,6 +58,19 @@ Bisect
 
 Commands for finding a checkin that broke your feature.
 
+Tips
+=====
+
+### Commit Amend - Rewriting the previous commit message
+
+Amend option replaces the tip of the current branch with a new commit that will use the same parents and author as the current HEAD's. `git commit -v --amend`
+
+### Bash auto-complete for git commands:
+
+`curl http://git.io/vfhol > ~/.git-completion.bash && echo '[ -f ~/.git-completion.bash ] && . ~/.git-completion.bash' >> ~/.bashrc`
+
+Then source it: `. ~/.bashrc`
+
 Strange Syntax
 ===============
 
