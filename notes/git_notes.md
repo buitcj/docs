@@ -54,6 +54,7 @@ Strange Syntax
 
 ~ (tilde) means the parent/previous revision of the commit.  Similar to ^ but it doesn't trace merged branches.
 
+```
 G   H   I   J
  \ /     \ /
   D   E   F
@@ -74,6 +75,7 @@ G = A^^^ = A^1^1^1 = A~3
 H = D^2  = B^^2    = A^^^2  = A~2^2
 I = F^   = B^3^    = A^^3^
 J = F^2  = B^3^2   = A^^3^2
+```
 
 Git Vocabulary
 ==============
@@ -84,6 +86,7 @@ Git Vocabulary
 
 Basically it can be a file or folder (folders are files in linux) of a particular revision. It can also be a revision because a revision is simply the version of the root directory tree.
 
+```
 ----------------------------------------------------------------------
 | Commit-ish AND Tree-ish   |                Examples
 ----------------------------------------------------------------------
@@ -110,6 +113,7 @@ Basically it can be a file or folder (folders are files in linux) of a particula
 ----------------------------------------------------------------------
 | 16. :<n>:<path>           | :0:README, :README
 ----------------------------------------------------------------------
+```
 
 ###Blob
 
