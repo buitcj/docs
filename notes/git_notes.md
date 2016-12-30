@@ -82,8 +82,16 @@ The former just has the files within db, but the latter has the db directory inc
 Bisect
 ======
 
-Commands for finding a checkin that broke your feature.
+Commands for finding binary searching for  a checkin that broke your feature.
 
+Squash
+======
+
+Squash is not a git command, but you can do it in several ways:
+
+1. Do a soft reset (`git reset --soft <rev>;`) which will stage your changes since the specified rev and make it ready for you to commit as a single unit. 
+2. Do a `git rebase -i` which allows you to interactively choose which changes to pick and squash.
+3. `git merge --squash` 
 
 Log
 ====
@@ -107,6 +115,9 @@ Then source it: `. ~/.bashrc`
 ###Interactive staging tool
 
 `git add -i`
+
+###Interactive committing
+`git commit --interactive` Note: -i is not for interactive mode
 
 Strange Syntax
 ===============
@@ -193,5 +204,9 @@ This just refers to a file, even text files.
 
 Upstream is where other features go and will eventually propagate down to your branch when you pull.  The other features flow downstream to you.  Your feature branch is the downstream branch because your changes don't affect anything upstream.
 
+
+###Squash
+
+Combines (squashes) multiple commits into one.  Very useful when you create temporary commits and commit on top of it and you want to make things cleaner by reducing to a single commit.
 
 
