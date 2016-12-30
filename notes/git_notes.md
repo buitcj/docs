@@ -49,9 +49,14 @@ Creates a bbpack/standalone package of a revision or a subset of its files.
 
 Example: `git archive --format zip --output ./dbsetupfiles.zip HEAD~3:./db/`
 
-Roughly equivalent: `git archive --format zip --output ./dbsetupfiles.zip HEAD~3 ./db/
+Roughly equivalent: `git archive --format zip --output ./dbsetupfiles.zip HEAD~3 ./db/`
 
 The former just has the files within db, but the latter has the db directory including the files within db.
+
+Bisect
+======
+
+Commands for finding a checkin that broke your feature.
 
 Strange Syntax
 ===============
