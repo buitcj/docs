@@ -1,3 +1,16 @@
+Rebase
+======
+
+Reapplies commits on top of another base tip.
+
+Common syntax: `git rebase <upstream [<branch>]` which specifies the "base" branch first on which the current branch (or the branch specified by <branch>) is applied.
+
+Where the current branch is "topic", `git rebase master` and `git rebase master topic` are equivalent.
+
+###--onto option
+
+Without this option, the --onto base is the tip of the upstream branch.  
+
 Merge vs. Rebase
 =================
 
