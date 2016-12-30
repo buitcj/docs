@@ -10,6 +10,11 @@ Cons of Rebase:
 * Rebase modifies the history, so you can lose information
 * Have to remember the golden rule of rebasing, which is never do it on public branches since it will modify the history and the everyone will see that branch appeared to have completely changed and diverged.
 
+###Fast-foward vs. Non-fast-foward Merge
+
+When you pull an upstream branch, if the upstream branch hadn't been changed, your merge can just be rebased.  This is essentially the same as a rebase.  Your commits will be applied to the tip of the upstream branch and no merge commit will be added.  Consider the pros and cons of merge vs. rebase before doing a fast-foward merge.  In general, people use non-ff because they can pin-point the branch/pull request.
+
+
 Stash
 =====
 
@@ -184,7 +189,9 @@ Basically it can be a file or folder (folders are files in linux) of a particula
 This just refers to a file, even text files.
 
 
+###Upstream Downstream
 
+Upstream is where other features go and will eventually propagate down to your branch when you pull.  The other features flow downstream to you.  Your feature branch is the downstream branch because your changes don't affect anything upstream.
 
 
 
