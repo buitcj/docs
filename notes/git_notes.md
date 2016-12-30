@@ -58,6 +58,13 @@ Bisect
 
 Commands for finding a checkin that broke your feature.
 
+
+Log
+====
+
+Show
+====
+
 Tips
 =====
 
@@ -70,6 +77,10 @@ Amend option replaces the tip of the current branch with a new commit that will 
 `curl http://git.io/vfhol > ~/.git-completion.bash && echo '[ -f ~/.git-completion.bash ] && . ~/.git-completion.bash' >> ~/.bashrc`
 
 Then source it: `. ~/.bashrc`
+
+###Interactive staging tool
+
+`git add -i`
 
 Strange Syntax
 ===============
