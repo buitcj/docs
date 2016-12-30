@@ -46,11 +46,15 @@ Example: Can revert multiple unrelated commits in a single command.
 Strange Syntax
 ===============
 
+### ^ (caret)
+
 ^ (caret) means the parent/previous revision
 
 `HEAD^1` is the revision prior to HEAD.  It is also the equivalent of HEAD~1.
 
 `HEAD^2` is the first commit of the merged branch, IF HEAD is a merge commit. This is called the **second parent**
+
+### ~ (tilde) 
 
 ~ (tilde) means the parent/previous revision of the commit.  Similar to ^ but it doesn't trace merged branches.
 
