@@ -1,3 +1,15 @@
+Merge vs. Rebase
+=================
+
+Pros of Rebase:
+* cleaner, linear history that can be traced to project inception
+* no merge commits polluting the history
+
+Cons of Rebase:
+* Doesn't tell you when upstream features were merged, which could affect your feature
+* Rebase modifies the history, so you can lose information
+* Have to remember the golden rule of rebasing, which is never do it on public branches since it will modify the history and the everyone will see that branch appeared to have completely changed and diverged.
+
 Stash
 =====
 
@@ -41,6 +53,15 @@ Revert will modify your files to make it identical to a different version
 Example: Can revert multiple unrelated commits in a single command.
 
 `git revert 0b810a eca5cd`
+
+Cherry-pick
+============
+
+`git cherry-pick <commit>...`
+
+Example that commits the two commits specified: `git cherry-pick 1c480cae 8de553a0eb`
+
+-m option allows you to specify a parent number.  If the `cherry-pick`ed commit is a merge, then the command doesn't know which parent to use as the mainline in order to replay (or not replay) the changes.
 
 Archive
 =======
