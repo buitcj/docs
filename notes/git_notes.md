@@ -89,9 +89,9 @@ Show
 Tips
 =====
 
-### Commit Amend - Rewriting the previous commit message
+### Commit Amend - Amends to the previous commit
 
-Amend option replaces the tip of the current branch with a new commit that will use the same parents and author as the current HEAD's. `git commit -v --amend`
+Amend option replaces the tip of the current branch with a new commit that will use the same parents and author as the current HEAD's. It adds most recent changes as well as gives you the ability to modify the commit message: `git commit --amend`
 
 ### Bash auto-complete for git commands:
 
