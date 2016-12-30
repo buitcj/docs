@@ -21,7 +21,7 @@ Reset
 
 Reset will actually modify the history and brings HEAD to the specified commit.
 
-Syntax: git reset [<mode>] [<commit>]
+Syntax: `git reset [<mode>] [<commit>]`
 
 Ex: HEAD becomes d0cb69
 
