@@ -1,15 +1,23 @@
 Rebase
 ======
 
-Reapplies commits on top of another base tip.
+Reapplies commits on top of another base tip.  Phrased another way: it "is the process of taking a fragment of git change history and rewriting that history as if it had begun at a different commit."  In short, it lets you move around commits and even change the history.
 
 Common syntax: `git rebase <upstream [<branch>]` which specifies the "base" branch first on which the current branch (or the branch specified by <branch>) is applied.
 
 Where the current branch is "topic", `git rebase master` and `git rebase master topic` are equivalent.
 
-###--onto option
+###`--onto <newbase>` option
 
-Without this option, the --onto base is the tip of the upstream branch.  
+Without this option, the --onto newbase is the tip of the upstream branch. 
+
+In the git man page, it is called --onto <newbase> but you can think of it as --onto <graft-point>.  Matthew brett renames the syntax: `git rebase --onto <graft-point> <exclude-from> <include-from>`
+
+In the git man page, it is called --onto <newbase> but you can think of it as --onto <graft-point>.  Matthew brett renames the syntax: `git rebase --onto <graft-point> <exclude-from> <include-from>`.  If you don't specify a `<graft-point>` it defaults to the `<exclude-from>`
+
+###Which commits will rebase apply? 
+
+Everything from `<exclude-from>` to `<include-from>`
 
 Merge vs. Rebase
 =================
@@ -95,7 +103,7 @@ The former just has the files within db, but the latter has the db directory inc
 Bisect
 ======
 
-Commands for finding binary searching for a checkin that broke your feature. At each step it bisects the remaining search space for you and you have to tell it whether the commit is good or bad, when talking about correctness or functionality.  For finding when something was introduced, you can also use the syntax "new" and "old".
+Commands for finding binary searching for a checkin that broke your feature. At each step it bisects the remaining search space for you and you have to tell it whether the commit is good or bad, when talking about correctness or functionality.  For finding when something was introduced, you can also use the syntax "new" and "old". Specify the last known good and bad points to narrow down its search window for faster searching.
 
 ```
 jbu@jbot:~/git_jbu/rebase_test$ git bisect start
