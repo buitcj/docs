@@ -19,6 +19,22 @@ In the git man page, it is called --onto <newbase> but you can think of it as --
 
 Everything from `<exclude-from>` to `<include-from>`
 
+###Common Usecase #1
+
+I want to combine two non-consecutive local commits to clean up the history before making commits public:
+
+`git rebase -i <upstream branch/commit>`
+
+Delete a commit by using the `drop` keyword
+
+Merge a commit by using `squash` or `fixup` to merge it into the previous ocommit.
+
+###Common Usecase #2
+
+Directly checking into a common branch that has been modified.
+
+Rebase needed to pick up the latest changes so that your commits can go on top of the latest changes instead of merging them
+
 Merge vs. Rebase
 =================
 
