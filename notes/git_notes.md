@@ -153,6 +153,7 @@ Squash is not a git command, but you can do it in several ways:
 1. Do a soft reset (`git reset --soft <rev>;`) which will stage your changes since the specified rev and make it ready for you to commit as a single unit. 
 2. Do a `git rebase -i` which allows you to interactively choose which changes to pick and squash.
 3. `git merge --squash` 
+4. `git commit --amend` amends the previous commit.
 
 Log
 ====
@@ -280,4 +281,8 @@ Upstream is where other features go and will eventually propagate down to your b
 
 Combines (squashes) multiple commits into one.  Very useful when you create temporary commits and commit on top of it and you want to make things cleaner by reducing to a single commit.
 
+Basics
+=======
 
+`git branch -a` lists all branches, remote and local
+`git branch -r` lists all branches on the remote
