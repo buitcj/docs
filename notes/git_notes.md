@@ -253,7 +253,7 @@ Useful command:
 
 In the previous example, `git log master...experiment` would return F E D C as this is the not the set of commits that both references can reach.
 
-###Shortnames
+###Ordinal (@{n})
 
 `git reflog` shows the history of how your HEAD was affected recently.  
 
@@ -269,6 +269,8 @@ d921970 HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
 ```
 
 `git show HEAD@{5}` specifies a shortname of the HEAD 5 changes ago.
+
+You can also specify times like `master@{yesterday}` and `master@{1.week.ago}`
 
 Git Vocabulary
 ==============
@@ -308,6 +310,8 @@ Basically it can be a file or folder (folders are files in linux) of a particula
 ----------------------------------------------------------------------
 ```
 
+Any identifier leading to a commit object is also a (sub)directory tree object - i.e. the root directory of the commit. Stated another way, every commit-ish identifier is also a tree-ish identifier.
+
 ###Blob
 
 This just refers to a file, even text files.
@@ -327,3 +331,9 @@ Basics
 
 `git branch -a` lists all branches, remote and local
 `git branch -r` lists all branches on the remote
+
+Good Reading
+============
+
+[https://git-scm.com/book/en/v2/Git-Internals-Git-Objects](Git content-addressable filesystem)
+
