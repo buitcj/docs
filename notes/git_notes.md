@@ -1,7 +1,7 @@
 Rebase
 ======
 
-Reapplies commits on top of another base tip.  Phrased another way: it "is the process of taking a fragment of git change history and rewriting that history as if it had begun at a different commit."  In short, it lets you move around commits and even change the history.
+"Reapplies commits on top of another base tip" - git documentation.  Phrased another way: it "is the process of taking a fragment of git change history and rewriting that history as if it had begun at a different commit."  In short, it lets you move around commits and even change the history.
 
 Common syntax: `git rebase <upstream [<branch>]` which specifies the "base" branch first on which the current branch (or the branch specified by <branch>) is applied.
 
@@ -173,12 +173,22 @@ Amend option replaces the tip of the current branch with a new commit that will 
 
 Then source it: `. ~/.bashrc`
 
-###Interactive staging tool
+###Staging tips
 
-`git add -i`
+Issue: `git add .` is quite overkill and can actually get you in trouble because you blindly add everything.
+
+`git add -i` interactively adds files by letting you choose which modified files to stage.
+
+`git add -p` adds in patch mode which allows you to review each of your changes.
 
 ###Interactive committing
 `git commit --interactive` Note: -i is not for interactive mode
+
+###Visual UI tools
+
+Difftool: `git difftool HEAD --tool=winmerge --no-prompt`
+
+Merge tool: `git mergetool --tool=meld`
 
 Strange Syntax
 ===============
