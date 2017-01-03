@@ -229,6 +229,14 @@ I = F^   = B^3^    = A^^3^
 J = F^2  = B^3^2   = A^^3^2
 ```
 
+###Full SHA1 hash
+
+`git show a5bec062afe1348b8317651c93cf5049e6b4e55e`
+
+###Partial SHA-1 has
+
+`git show a5bec`
+
 ###Double dot (..)
 
 Specifies a range of commits.  "Resolve a range of commits that are reachable from one commit but aren't reachable from another".
@@ -253,7 +261,7 @@ Useful command:
 
 In the previous example, `git log master...experiment` would return F E D C as this is the not the set of commits that both references can reach.
 
-###Shortnames
+###Ordinal (@{n})
 
 `git reflog` shows the history of how your HEAD was affected recently.  
 
@@ -269,6 +277,8 @@ d921970 HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
 ```
 
 `git show HEAD@{5}` specifies a shortname of the HEAD 5 changes ago.
+
+You can also specify times like `master@{yesterday}` and `master@{1.week.ago}`
 
 Git Vocabulary
 ==============
@@ -308,6 +318,8 @@ Basically it can be a file or folder (folders are files in linux) of a particula
 ----------------------------------------------------------------------
 ```
 
+Any identifier leading to a commit object is also a (sub)directory tree object - i.e. the root directory of the commit. Stated another way, every commit-ish identifier is also a tree-ish identifier.
+
 ###Blob
 
 This just refers to a file, even text files.
@@ -327,3 +339,9 @@ Basics
 
 `git branch -a` lists all branches, remote and local
 `git branch -r` lists all branches on the remote
+
+Good Reading
+============
+
+[Git content-addressable filesystem)[https://git-scm.com/book/en/v2/Git-Internals-Git-Objects]
+
