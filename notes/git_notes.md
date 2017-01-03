@@ -343,5 +343,5 @@ Basics
 Good Reading
 ============
 
-[Git content-addressable filesystem)[https://git-scm.com/book/en/v2/Git-Internals-Git-Objects]
+[Git content-addressable filesystem](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects)
 
