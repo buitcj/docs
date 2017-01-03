@@ -280,6 +280,11 @@ d921970 HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
 
 You can also specify times like `master@{yesterday}` and `master@{1.week.ago}`
 
+###^@
+
+###^!
+
+
 Git Vocabulary
 ==============
 
@@ -290,40 +295,39 @@ Git Vocabulary
 Basically it can be a file or folder (folders are files in linux) of a particular revision. It can also be a revision because a revision is simply the version of the root directory tree.
 
 ```
-----------------------------------------------------------------------
-| Commit-ish AND Tree-ish   |                Examples
-----------------------------------------------------------------------
-|  1. <sha1>                | dae86e1950b1277e545cee180551750029cfe735
-|  2. <describeOutput>      | v1.7.4.2-679-g3bee7fb
-|  3. <refname>             | master, heads/master, refs/heads/master
-|  4. <refname>@{<date>}    | master@{yesterday}, HEAD@{5 minutes ago}
-|  5. <refname>@{<n>}       | master@{1}
-|  6. @{<n>}                | @{1}
-|  7. @{-<n>}               | @{-1}
-|  8. <refname>@{upstream}  | master@{upstream}, @{u}
-|  9. <rev>^                | HEAD^, v1.5.1^0
-| 10. <rev>~<n>             | master~3
-| 11. <rev>^{<type>}        | v0.99.8^{commit}
-| 12. <rev>^{}              | v0.99.8^{}
-| 13. <rev>^{/<text>}       | HEAD^{/fix nasty bug}
-| 14. :/<text>              | :/fix nasty bug
-----------------------------------------------------------------------
-|       Tree-ish only       |                Examples
-----------------------------------------------------------------------
-| 15. <rev>:<path>          | HEAD:README, :README, master:./README
-----------------------------------------------------------------------
-|         Tree-ish?         |                Examples
-----------------------------------------------------------------------
-| 16. :<n>:<path>           | :0:README, :README
-----------------------------------------------------------------------
+------------------------------------------------------------------------------------------------
+| Commit-ish AND Tree-ish   |                Examples                 |           Notes
+------------------------------------------------------------------------------------------------
+|  1. <sha1>                | dae86e1950b1277e545cee180551750029cfe735|
+|  2. <describeOutput>      | v1.7.4.2-679-g3bee7fb                   | Output from git describe
+|  3. <refname>             | master, heads/master, refs/heads/master | Symbolic ref name - can be tag or commit object 
+|  4. <refname>@{<date>}    | master@{yesterday}, HEAD@{5 minutes ago}| 
+|  5. <refname>@{<n>}       | master@{1}                              | Ordinal specification - ordinal prior to that ref
+|  6. @{<n>}                | @{1}                                    | Ordinal specification - nth prior entry in git reflog
+|  7. @{-<n>}               | @{-1}                                   | nth branch/commit checkout out before the current one
+|  8. <refname>@{upstream}  | master@{upstream}, @{u}                 | The branch that the branch specified by refname is set to build on top of.
+|  9. <rev>^                | HEAD^, v1.5.1^0                         | ^ and ^0 mean the first parent (previous revision commit)
+| 10. <rev>~<n>             | master~3                                | Nth generation ancestor, only following first parents
+| 11. <rev>^{<type>}        | v0.99.8^{commit}                        | Dereference <rev> until object of type is found.  Can be tree, commit, tag, object.
+| 12. <rev>^{}              | v0.99.8^{}                              | <rev> could be a tag, so deference the tag until a non-tag is found
+| 13. <rev>^{/<text>}       | HEAD^{/fix nasty bug}                   | Finds the earliest commit reachable from <rev> whose commit message matches <text>
+| 14. :/<text>              | :/fix nasty bug                         | Finds the commit whose commit message matches <text>
+----------------------------------------------------------------------|------------------------- 
+|       Tree-ish only       |                Examples                 |           Notes
+------------------------------------------------------------------------------------------------
+| 15. <rev>:<path>          | HEAD:README, :README, master:./README   | Finds the blob or tree specified as a path relative to the tree-ish object specified by <rev>
+------------------------------------------------------------------------------------------------
+|         Tree-ish?         |                Examples                 |           Notes
+------------------------------------------------------------------------------------------------
+| 16. :<n>:<path>           | :0:README, :README                      | Stage notation - 1=CommonAncestor, 2=TargetBranch'sVersion, 3=version from the branch which is being merged
+------------------------------------------------------------------------------------------------
 ```
 
 Any identifier leading to a commit object is also a (sub)directory tree object - i.e. the root directory of the commit. Stated another way, every commit-ish identifier is also a tree-ish identifier.
 
 ###Blob
 
-This just refers to a file, even text files.
-
+This just refers to a file, even text files.  It can also be a tree ((sub)directory) as a directory in linux is also a file)
 
 ###Upstream Downstream
 
@@ -345,3 +349,4 @@ Good Reading
 
 [Git content-addressable filesystem](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects)
 
+[Git revision specification](https://www.kernel.org/pub/software/scm/git/docs/gitrevisions.html)
