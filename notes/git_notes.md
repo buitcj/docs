@@ -229,6 +229,47 @@ I = F^   = B^3^    = A^^3^
 J = F^2  = B^3^2   = A^^3^2
 ```
 
+###Double dot (..)
+
+Specifies a range of commits.  "Resolve a range of commits that are reachable from one commit but aren't reachable from another".
+
+```
+Ex: A - B - E - F (Master)
+         \
+          C - D (Experiment)
+```
+
+`git log master..experiment` returns D and C, as they are the commits reachable from Experiment but not from Master
+
+`git log experiment..master` returns F and E, as they are the commits reachable from Master but not from Experiment.
+
+Useful command: 
+
+`git log origin/master..HEAD` will show you the commits in your local repo but not on the remote master.
+
+###Triple dot (...)
+
+"Specifies all the commits that are reachable by either of two references but not by both of them"
+
+In the previous example, `git log master...experiment` would return F E D C as this is the not the set of commits that both references can reach.
+
+###Shortnames
+
+`git reflog` shows the history of how your HEAD was affected recently.  
+
+```
+$ git reflog
+734713b HEAD@{0}: commit: fixed refs handling, added gc auto, updated
+d921970 HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
+1c002dd HEAD@{2}: commit: added some blame and merge stuff
+1c36188 HEAD@{3}: rebase -i (squash): updating HEAD
+95df984 HEAD@{4}: commit: # This is a combination of two commits.
+1c36188 HEAD@{5}: rebase -i (squash): updating HEAD
+7e05da5 HEAD@{6}: rebase -i (pick): updating HEAD
+```
+
+`git show HEAD@{5}` specifies a shortname of the HEAD 5 changes ago.
+
 Git Vocabulary
 ==============
 
