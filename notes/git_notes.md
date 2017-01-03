@@ -233,7 +233,7 @@ J = F^2  = B^3^2   = A^^3^2
 
 `git show a5bec062afe1348b8317651c93cf5049e6b4e55e`
 
-###Partial SHA-1 has
+###Partial SHA-1 hash
 
 `git show a5bec`
 
@@ -343,5 +343,5 @@ Basics
 Good Reading
 ============
 
-[Git content-addressable filesystem)[https://git-scm.com/book/en/v2/Git-Internals-Git-Objects]
+[Git content-addressable filesystem](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects)
 
