@@ -1,7 +1,7 @@
 Rebase
 ======
 
-Reapplies commits on top of another base tip.  Phrased another way: it "is the process of taking a fragment of git change history and rewriting that history as if it had begun at a different commit."  In short, it lets you move around commits and even change the history.
+"Reapplies commits on top of another base tip" - git documentation.  Phrased another way: it "is the process of taking a fragment of git change history and rewriting that history as if it had begun at a different commit."  In short, it lets you move around commits and even change the history.
 
 Common syntax: `git rebase <upstream [<branch>]` which specifies the "base" branch first on which the current branch (or the branch specified by <branch>) is applied.
 
@@ -169,6 +169,7 @@ Squash is not a git command, but you can do it in several ways:
 1. Do a soft reset (`git reset --soft <rev>;`) which will stage your changes since the specified rev and make it ready for you to commit as a single unit. 
 2. Do a `git rebase -i` which allows you to interactively choose which changes to pick and squash.
 3. `git merge --squash` 
+4. `git commit --amend` amends the previous commit.
 
 Log
 ====
@@ -189,12 +190,22 @@ Amend option replaces the tip of the current branch with a new commit that will 
 
 Then source it: `. ~/.bashrc`
 
-###Interactive staging tool
+###Staging tips
 
-`git add -i`
+Issue: `git add .` is quite overkill and can actually get you in trouble because you blindly add everything.
+
+`git add -i` interactively adds files by letting you choose which modified files to stage.
+
+`git add -p` adds in patch mode which allows you to review each of your changes.
 
 ###Interactive committing
 `git commit --interactive` Note: -i is not for interactive mode
+
+###Visual UI tools
+
+Difftool: `git difftool HEAD --tool=winmerge --no-prompt`
+
+Merge tool: `git mergetool --tool=meld`
 
 Strange Syntax
 ===============
@@ -234,6 +245,62 @@ I = F^   = B^3^    = A^^3^
 J = F^2  = B^3^2   = A^^3^2
 ```
 
+###Full SHA1 hash
+
+`git show a5bec062afe1348b8317651c93cf5049e6b4e55e`
+
+###Partial SHA-1 hash
+
+`git show a5bec`
+
+###Double dot (..)
+
+Specifies a range of commits.  "Resolve a range of commits that are reachable from one commit but aren't reachable from another".
+
+```
+Ex: A - B - E - F (Master)
+         \
+          C - D (Experiment)
+```
+
+`git log master..experiment` returns D and C, as they are the commits reachable from Experiment but not from Master
+
+`git log experiment..master` returns F and E, as they are the commits reachable from Master but not from Experiment.
+
+Useful command: 
+
+`git log origin/master..HEAD` will show you the commits in your local repo but not on the remote master.
+
+###Triple dot (...)
+
+"Specifies all the commits that are reachable by either of two references but not by both of them"
+
+In the previous example, `git log master...experiment` would return F E D C as this is the not the set of commits that both references can reach.
+
+###Ordinal (@{n})
+
+`git reflog` shows the history of how your HEAD was affected recently.  
+
+```
+$ git reflog
+734713b HEAD@{0}: commit: fixed refs handling, added gc auto, updated
+d921970 HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
+1c002dd HEAD@{2}: commit: added some blame and merge stuff
+1c36188 HEAD@{3}: rebase -i (squash): updating HEAD
+95df984 HEAD@{4}: commit: # This is a combination of two commits.
+1c36188 HEAD@{5}: rebase -i (squash): updating HEAD
+7e05da5 HEAD@{6}: rebase -i (pick): updating HEAD
+```
+
+`git show HEAD@{5}` specifies a shortname of the HEAD 5 changes ago.
+
+You can also specify times like `master@{yesterday}` and `master@{1.week.ago}`
+
+###^@
+
+###^!
+
+
 Git Vocabulary
 ==============
 
@@ -244,38 +311,39 @@ Git Vocabulary
 Basically it can be a file or folder (folders are files in linux) of a particular revision. It can also be a revision because a revision is simply the version of the root directory tree.
 
 ```
-----------------------------------------------------------------------
-| Commit-ish AND Tree-ish   |                Examples
-----------------------------------------------------------------------
-|  1. <sha1>                | dae86e1950b1277e545cee180551750029cfe735
-|  2. <describeOutput>      | v1.7.4.2-679-g3bee7fb
-|  3. <refname>             | master, heads/master, refs/heads/master
-|  4. <refname>@{<date>}    | master@{yesterday}, HEAD@{5 minutes ago}
-|  5. <refname>@{<n>}       | master@{1}
-|  6. @{<n>}                | @{1}
-|  7. @{-<n>}               | @{-1}
-|  8. <refname>@{upstream}  | master@{upstream}, @{u}
-|  9. <rev>^                | HEAD^, v1.5.1^0
-| 10. <rev>~<n>             | master~3
-| 11. <rev>^{<type>}        | v0.99.8^{commit}
-| 12. <rev>^{}              | v0.99.8^{}
-| 13. <rev>^{/<text>}       | HEAD^{/fix nasty bug}
-| 14. :/<text>              | :/fix nasty bug
-----------------------------------------------------------------------
-|       Tree-ish only       |                Examples
-----------------------------------------------------------------------
-| 15. <rev>:<path>          | HEAD:README, :README, master:./README
-----------------------------------------------------------------------
-|         Tree-ish?         |                Examples
-----------------------------------------------------------------------
-| 16. :<n>:<path>           | :0:README, :README
-----------------------------------------------------------------------
+------------------------------------------------------------------------------------------------
+| Commit-ish AND Tree-ish   |                Examples                 |           Notes
+------------------------------------------------------------------------------------------------
+|  1. <sha1>                | dae86e1950b1277e545cee180551750029cfe735|
+|  2. <describeOutput>      | v1.7.4.2-679-g3bee7fb                   | Output from git describe
+|  3. <refname>             | master, heads/master, refs/heads/master | Symbolic ref name - can be tag or commit object 
+|  4. <refname>@{<date>}    | master@{yesterday}, HEAD@{5 minutes ago}| 
+|  5. <refname>@{<n>}       | master@{1}                              | Ordinal specification - ordinal prior to that ref
+|  6. @{<n>}                | @{1}                                    | Ordinal specification - nth prior entry in git reflog
+|  7. @{-<n>}               | @{-1}                                   | nth branch/commit checkout out before the current one
+|  8. <refname>@{upstream}  | master@{upstream}, @{u}                 | The branch that the branch specified by refname is set to build on top of.
+|  9. <rev>^                | HEAD^, v1.5.1^0                         | ^ and ^0 mean the first parent (previous revision commit)
+| 10. <rev>~<n>             | master~3                                | Nth generation ancestor, only following first parents
+| 11. <rev>^{<type>}        | v0.99.8^{commit}                        | Dereference <rev> until object of type is found.  Can be tree, commit, tag, object.
+| 12. <rev>^{}              | v0.99.8^{}                              | <rev> could be a tag, so deference the tag until a non-tag is found
+| 13. <rev>^{/<text>}       | HEAD^{/fix nasty bug}                   | Finds the earliest commit reachable from <rev> whose commit message matches <text>
+| 14. :/<text>              | :/fix nasty bug                         | Finds the commit whose commit message matches <text>
+----------------------------------------------------------------------|------------------------- 
+|       Tree-ish only       |                Examples                 |           Notes
+------------------------------------------------------------------------------------------------
+| 15. <rev>:<path>          | HEAD:README, :README, master:./README   | Finds the blob or tree specified as a path relative to the tree-ish object specified by <rev>
+------------------------------------------------------------------------------------------------
+|         Tree-ish?         |                Examples                 |           Notes
+------------------------------------------------------------------------------------------------
+| 16. :<n>:<path>           | :0:README, :README                      | Stage notation - 1=CommonAncestor, 2=TargetBranch'sVersion, 3=version from the branch which is being merged
+------------------------------------------------------------------------------------------------
 ```
+
+Any identifier leading to a commit object is also a (sub)directory tree object - i.e. the root directory of the commit. Stated another way, every commit-ish identifier is also a tree-ish identifier.
 
 ###Blob
 
-This just refers to a file, even text files.
-
+This just refers to a file, even text files.  It can also be a tree ((sub)directory) as a directory in linux is also a file)
 
 ###Upstream Downstream
 
@@ -286,4 +354,15 @@ Upstream is where other features go and will eventually propagate down to your b
 
 Combines (squashes) multiple commits into one.  Very useful when you create temporary commits and commit on top of it and you want to make things cleaner by reducing to a single commit.
 
+Basics
+=======
 
+`git branch -a` lists all branches, remote and local
+`git branch -r` lists all branches on the remote
+
+Good Reading
+============
+
+[Git content-addressable filesystem](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects)
+
+[Git revision specification](https://www.kernel.org/pub/software/scm/git/docs/gitrevisions.html)
