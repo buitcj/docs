@@ -3,7 +3,7 @@ Rebase
 
 "Reapplies commits on top of another base tip" - git documentation.  Phrased another way: it "is the process of taking a fragment of git change history and rewriting that history as if it had begun at a different commit."  In short, it lets you move around commits and even change the history.
 
-Common syntax: `git rebase <upstream [<branch>]` which specifies the "base" branch first on which the current branch (or the branch specified by <branch>) is applied.
+Common syntax: `git rebase upstream [branch]` which specifies the "base" branch first on which the current branch (or the branch specified by <branch>) is applied.
 
 Where the current branch is "topic", `git rebase master` and `git rebase master topic` are equivalent.
 
@@ -11,15 +11,13 @@ Where the current branch is "topic", `git rebase master` and `git rebase master 
 
 Without this option, the --onto newbase is the tip of the upstream branch. 
 
-In the git man page, it is called --onto <newbase> but you can think of it as --onto <graft-point>.  Matthew brett renames the syntax: `git rebase --onto <graft-point> <exclude-from> <include-from>`
-
-In the git man page, it is called --onto <newbase> but you can think of it as --onto <graft-point>.  Matthew brett renames the syntax: `git rebase --onto <graft-point> <exclude-from> <include-from>`.  If you don't specify a `<graft-point>` it defaults to the `<exclude-from>`
+In the git man page, it is called `--onto <newbase>` but you can think of it as `--onto <graft-point>`.  Matthew brett renames the syntax: `git rebase [--onto <graft-point>] <exclude-from> <include-from>`.  If you don't specify a `<graft-point>` it defaults to the `<exclude-from>`
 
 ###Which commits will rebase apply? 
 
 Everything from `<exclude-from>` to `<include-from>`
 
-###Common Usecase #1
+###Common Usecase #1: Cleaning up history
 
 I want to combine two non-consecutive local commits to clean up the history before making commits public:
 
@@ -29,11 +27,11 @@ Delete a commit by using the `drop` keyword
 
 Merge a commit by using `squash` or `fixup` to merge it into the previous ocommit.
 
-###Common Usecase #2
+###Common Usecase #2: Adding to something that you already committed but didn't push to the public branch.
 
 Directly checking into a common branch that has been modified.
 
-Rebase needed to pick up the latest changes so that your commits can go on top of the latest changes instead of merging them
+Rebase needed to pick up the latest changes so that your commits can go on top of the latest changes instead of merging them.
 
 Merge vs. Rebase
 =================
@@ -75,9 +73,9 @@ Reset
 
 Reset will actually modify the history and brings HEAD to the specified commit.
 
-Syntax: `git reset [<mode>] [<commit>]`
+Syntax: `git reset [--<mode>] [<commit>]`
 
-Ex: HEAD becomes d0cb69
+Ex: You want commit d0cb69 to be the HEAD of your branch.
 
 `git reset d0cb69`
 
@@ -90,7 +88,7 @@ Three reset modes:
 Revert
 ======
 
-Revert will modify your files to make it identical to a different version
+Revert will modify your files to make it identical to a different version.
 
 Example: Can revert multiple unrelated commits in a single command.
 
@@ -108,7 +106,7 @@ Example that commits the two commits specified: `git cherry-pick 1c480cae 8de553
 Archive
 =======
 
-Creates a bbpack/standalone package of a revision or a subset of its files.
+Creates a standalone package (like a bbpack) of a revision or a subset of its files.
 
 Example: `git archive --format zip --output ./dbsetupfiles.zip HEAD~3:./db/`
 
@@ -164,12 +162,12 @@ Your branch is up-to-date with 'origin/master'.
 Squash
 ======
 
-Squash is not a git command, but you can do it in several ways:
+Squash is not a git command - it is just the action of combining multiple commits.  You can do it in several ways:
 
 1. Do a soft reset (`git reset --soft <rev>;`) which will stage your changes since the specified rev and make it ready for you to commit as a single unit. 
 2. Do a `git rebase -i` which allows you to interactively choose which changes to pick and squash.
-3. `git merge --squash` 
-4. `git commit --amend` amends the previous commit.
+3. `git merge --squash` //TODO: expand
+4. `git commit --amend` amends the previous commit with currently staged files.
 
 Log
 ====
@@ -245,13 +243,11 @@ I = F^   = B^3^    = A^^3^
 J = F^2  = B^3^2   = A^^3^2
 ```
 
-###Full SHA1 hash
+###SHA-1 hash
 
-`git show a5bec062afe1348b8317651c93cf5049e6b4e55e`
+Commands requiring a commit can be specified by the SHA-1 of the commit: `git show a5bec062afe1348b8317651c93cf5049e6b4e55e`
 
-###Partial SHA-1 hash
-
-`git show a5bec`
+You can also use the partial SHA-1 hash, provided that the partial hash can uniquely identify your commit: `git show a5bec`
 
 ###Double dot (..)
 
