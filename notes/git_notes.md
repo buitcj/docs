@@ -50,7 +50,7 @@ I want to combine two non-consecutive local commits to clean up the history befo
 
 Delete a commit by using the `drop` keyword
 
-Merge a commit by using `squash` or `fixup` to merge it into the previous ocommit.
+Merge a commit by using `squash` or `fixup` to merge it into the previous commit.
 
 ###Common Usecase #3: Adding to something that you already committed but didn't push to the public branch.
 
