@@ -200,13 +200,15 @@ Pre-requisites: Read about the content-addressable filesystem that git implement
 
 Every commit is stored in the .git directory and only cleaned up periodically by running `git gc` automatically for the user which garbage collects.  Likely you can always find the data you thought you lost by finding the missing commit and referencing it with a new branch.  
 
-You can find a missing commit in one of two ways.
+###Find a missing commit
 
-###1. Reflog
+You can find a missing/lost/deleted commit in one of two ways:
+
+####1. Reflog
 
 Use `git reflog` which tells you the history of where your HEAD was pointing.  Point your HEAD to the commit that was previously reachable.  Now you will see all the commits that were reachable from that HEAD in the log.
 
-###2. Find dangling commits.
+####2. Find dangling commits.
 
 Use the `git fsck --full` command which shows all objects that aren't pointed to by another object.  Find the commit object and point a branch HEAD to it.
 
@@ -218,6 +220,27 @@ dangling blob d670460b4b4aece5915caf5c68d12f560a9fe3e4
 dangling commit ab1afef80fac8e34258ff41fc1b867c702daa24b
 dangling tree aea790b9a58f6cf6f2804eeac9f0abbe9631e4c9
 dangling blob 7108f7ecb345ee9d0084193f147cdad4d2998293
+```
+
+###Find a missing staged file
+
+If a file was added but not committed, don't worry.  This file was also saved by git into the .git/index directory.
+
+```
+> echo "important, don't delete" > ./test.txt
+> git add -i // add the test.txt
+> git reset --hard
+> git log // shows no test.txt
+> git fsck --lost-found
+notice: HEAD points to an unborn branch (master)
+Checking object directories: 100% (256/256), done.
+notice: No default references
+dangling blob 634f2a4b6d3eb45cb771756cac113f920f3393e0
+missing tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904
+> git cat-file -p 634f2a
+important, don't delete
+> cat ./.git/lost-found/other/634f2a4b6d3eb45cb771756cac113f920f3393e0 
+important, don't delete
 ```
 
 Log
@@ -419,3 +442,5 @@ Good Reading
 [Git revision specification](https://www.kernel.org/pub/software/scm/git/docs/gitrevisions.html)
 
 [Git maintenance and data recovery](https://git-scm.com/book/en/v2/Git-Internals-Maintenance-and-Data-Recovery)
+
+[Viewing tree objects](http://alblue.bandlem.com/2011/08/git-tip-of-week-trees.html)
