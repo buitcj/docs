@@ -193,6 +193,33 @@ Squash is not a git command - it is just the action of combining multiple commit
 3. `git merge --squash` //TODO: expand
 4. `git commit --amend` amends the previous commit with currently staged files.
 
+Data Recovery
+=============
+
+Pre-requisites: Read about the content-addressable filesystem that git implements and also read about `git reflog`.
+
+Every commit is stored in the .git directory and only cleaned up periodically by running `git gc` automatically for the user which garbage collects.  Likely you can always find the data you thought you lost by finding the missing commit and referencing it with a new branch.  
+
+You can find a missing commit in one of two ways.
+
+###1. Reflog
+
+Use `git reflog` which tells you the history of where your HEAD was pointing.  Point your HEAD to the commit that was previously reachable.  Now you will see all the commits that were reachable from that HEAD in the log.
+
+###2. Find dangling commits.
+
+Use the `git fsck --full` command which shows all objects that aren't pointed to by another object.  Find the commit object and point a branch HEAD to it.
+
+```
+$ git fsck --full
+Checking object directories: 100% (256/256), done.
+Checking objects: 100% (18/18), done.
+dangling blob d670460b4b4aece5915caf5c68d12f560a9fe3e4
+dangling commit ab1afef80fac8e34258ff41fc1b867c702daa24b
+dangling tree aea790b9a58f6cf6f2804eeac9f0abbe9631e4c9
+dangling blob 7108f7ecb345ee9d0084193f147cdad4d2998293
+```
+
 Log
 ====
 
@@ -390,3 +417,5 @@ Good Reading
 [Git content-addressable filesystem](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects)
 
 [Git revision specification](https://www.kernel.org/pub/software/scm/git/docs/gitrevisions.html)
+
+[Git maintenance and data recovery](https://git-scm.com/book/en/v2/Git-Internals-Maintenance-and-Data-Recovery)
