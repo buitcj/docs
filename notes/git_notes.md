@@ -363,7 +363,11 @@ Any identifier leading to a commit object is also a (sub)directory tree object -
 
 ###Blob
 
-This just refers to a file, even text files.  It can also be a tree ((sub)directory) as a directory in linux is also a file)
+This just refers to a file, even text files.
+
+###Tree
+
+Any (sub) directory in the project.
 
 ###Upstream Downstream
 
