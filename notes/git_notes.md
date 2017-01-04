@@ -17,7 +17,32 @@ In the git man page, it is called `--onto <newbase>` but you can think of it as 
 
 Everything from `<exclude-from>` to `<include-from>`
 
-###Common Usecase #1: Cleaning up history
+###Common Usecase #1: Checking in code to the upstream branch
+
+If you want to push your changes remotely but the remote branch has changed, git won't let you push, effectively saying that your branch's HEAD is not up-to-date. 
+
+```
+Ex: X -- A (Remote Master)
+      \
+       B (Local Master)
+
+> git push origin master
+To https://github.com/buitcj/rebase_on_checkin.git
+ ! [rejected]        master -> master (non-fast-forward)
+error: failed to push some refs to 'https://github.com/buitcj/rebase_on_checkin.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+```
+
+If you pushed your branch (X and B) then you'd lose branch history since you'd be erasing A. You need to fetch the new history by doing a merge or a rebase.  By running `git rebase master` git would effectively move your changes onto the tip of the remote Master's HEAD like so:
+
+```
+Ex: X -- A -- B 
+```
+
+###Common Usecase #2: Cleaning up history
 
 I want to combine two non-consecutive local commits to clean up the history before making commits public:
 
@@ -27,9 +52,10 @@ Delete a commit by using the `drop` keyword
 
 Merge a commit by using `squash` or `fixup` to merge it into the previous ocommit.
 
-###Common Usecase #2: Adding to something that you already committed but didn't push to the public branch.
+###Common Usecase #3: Adding to something that you already committed but didn't push to the public branch.
 
 Directly checking into a common branch that has been modified.
+
 
 Rebase needed to pick up the latest changes so that your commits can go on top of the latest changes instead of merging them.
 
