@@ -54,10 +54,8 @@ Merge a commit by using `squash` or `fixup` to merge it into the previous commit
 
 ###Common Usecase #3: Adding to something that you already committed but didn't push to the public branch.
 
-Directly checking into a common branch that has been modified.
+Can use `git rebase -i` to squash.
 
-
-Rebase needed to pick up the latest changes so that your commits can go on top of the latest changes instead of merging them.
 
 Merge vs. Rebase
 =================
