@@ -243,6 +243,40 @@ important, don't delete
 important, don't delete
 ```
 
+Navigating the content-addressable filesystem
+==============================================
+
+The plumbing commands can be used to view objects in .git/objects.  They also allow you to view files from other branches in your local git repo.
+
+###Traversing the file system
+
+Dereference a specific branch until a tree (root) is found.
+
+```
+jbu@ubuntu:~/git_jbu/docs$ git cat-file -p master^{tree}
+040000 tree c9c134b29d3cbc9e9cd3bcd7660e3e87ef328cd2    academic
+040000 tree f7d273d172689c7b14cf57e2b537a23fe3b21a10    notes
+040000 tree 8113accd6dbc8ce65247395f352ca6a898c8e7b0    presentations
+```
+
+We found some more trees which are just (sub)directories.  Now let's see what's in one of those.
+
+```
+jbu@ubuntu:~/git_jbu/docs$ git cat-file -p f7d273d172689c7b14cf57e2b537a23fe3b21a10
+100644 blob edd3d1bada1e134f3842edad50f19e5dffef93f5    AlgorithmNotes.pdf
+100644 blob 5496e509b59abe3d7fea7c4a9dc8c73b2f96128a    git_notes.md
+```
+
+Now we've encountered blobs, which are just files.  We can view what's in a file using the same command.
+
+```
+jbu@ubuntu:~/git_jbu/docs$ git cat-file -p 5496e509b59abe3d7fea7c4a9dc8c73b2f96128a
+```
+
+This prints out the file.
+
+We can also repeat the commands for different branches.  Github and bitbucket likely use these plumbing commands to quickly show you what's in those branches without having to check out each branch every time you navigate to a different branch.
+
 Log
 ====
 
@@ -427,6 +461,18 @@ Upstream is where other features go and will eventually propagate down to your b
 ###Squash
 
 Combines (squashes) multiple commits into one.  Very useful when you create temporary commits and commit on top of it and you want to make things cleaner by reducing to a single commit.
+
+###Porcelain and Plumbing
+
+Plumbing refers to the bare pipe.  Porcelain refers to the toilet that is used on top of the bare pipe.  In other words, git plumbing commands are low level commands not meant for most users; in the bathroom nobody uses the bare pipe directly.  Instead, most git users should use porcelain commands meant for normal usage like the toilet instead of the pipe.
+
+####Example plumbing commands
+
+`git hash-object`
+`git ls-tree`
+`git rev-parse`
+`git write-tree`
+`git update-index`
 
 Basics
 =======
