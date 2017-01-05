@@ -474,6 +474,10 @@ Plumbing refers to the bare pipe.  Porcelain refers to the toilet that is used o
 `git write-tree`
 `git update-index`
 
+###Detached Head
+
+Your branch will be in a detached head if you checkout a reference object that that is not a tag or the HEAD of any branch. `git checkout HEAD^1` will likely put yourself into a detached HEAD state, assuming that your previous commit is not the HEAD of a branch or a tag.
+
 Basics
 =======
 
