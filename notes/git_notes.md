@@ -73,7 +73,7 @@ Cons of Rebase:
 
 ###Fast-foward vs. Non-fast-foward Merge
 
-When you pull an upstream branch, if the upstream branch hadn't been changed, your merge can just be rebased.  This is essentially the same as a rebase.  Your commits will be applied to the tip of the upstream branch and no merge commit will be added.  Consider the pros and cons of merge vs. rebase before doing a fast-foward merge.  In general, people use non-ff because they can pin-point the branch/pull request.
+When you pull or push an upstream branch, if the upstream branch hadn't been changed (i.e., there's nothing between its HEAD and your first commit), then your merge can just be rebased.  This is essentially the same as a rebase.  Your commits will be applied to the tip of the upstream branch and no merge commit will be added.  Consider the pros and cons of merge vs. rebase before doing a fast-foward merge.  In general, people use non-ff because they can pin-point the branch/pull request.
 
 
 Stash
@@ -471,9 +471,13 @@ Plumbing refers to the bare pipe.  Porcelain refers to the toilet that is used o
 ####Example plumbing commands
 
 `git hash-object`
+
 `git ls-tree`
+
 `git rev-parse`
+
 `git write-tree`
+
 `git update-index`
 
 ###Detached Head
