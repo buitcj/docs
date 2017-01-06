@@ -63,9 +63,11 @@ Merge vs. Rebase
 Pros of Rebase:
 * cleaner, linear history that can be traced to project inception
 * no merge commits polluting the history
+* other tools can make better use of the linear history (e.g., `git bisect`)
 
 Cons of Rebase:
 * Doesn't tell you when upstream features were merged, which could affect your feature
+* Upstream branch doesnt know which branch the changes came from or when the changes entered the upstream branch.
 * Rebase modifies the history, so you can lose information
 * Have to remember the golden rule of rebasing, which is never do it on public branches since it will modify the history and the everyone will see that branch appeared to have completely changed and diverged.
 
