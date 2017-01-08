@@ -444,3 +444,16 @@ Good Reading
 [Git maintenance and data recovery](https://git-scm.com/book/en/v2/Git-Internals-Maintenance-and-Data-Recovery)
 
 [Viewing tree objects](http://alblue.bandlem.com/2011/08/git-tip-of-week-trees.html)
+
+Git Internals
+==============
+Must default objects to view
+A change in a blob will change the hashes.  Hash changes propogate to the top level tree and then to the commit.  
+If I share my branch with someone, they ought to have some of the objects already so they don't have to go fetch it again.
+You can actually create a file in .git/refs/heads/<some new branch name> and paste a commit hash, and you'll create a new branch
+
+play with `git show --pretty=raw HEAD`
+
+`git reflog` is like a history so you can go back if you screw up your history
+
+branches are nothing more than commits with names
