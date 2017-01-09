@@ -500,3 +500,51 @@ Good Reading
 [Git maintenance and data recovery](https://git-scm.com/book/en/v2/Git-Internals-Maintenance-and-Data-Recovery)
 
 [Viewing tree objects](http://alblue.bandlem.com/2011/08/git-tip-of-week-trees.html)
+
+Git Internals
+==============
+
+HEAD (typically) points to a branch.  Branches are just pointers to commits.
+
+```
+jbu@ubuntu:~/git_jbu/docs$ cat ./.git/HEAD
+ref: refs/heads/master
+
+jbu@ubuntu:~/git_jbu/docs$ cat ./.git/refs/heads/master
+6b8bbd1a0a7132cb1b24c5d850b43e169e096172
+
+jbu@ubuntu:~/git_jbu/docs$ git checkout -b feature
+Switched to a new branch 'feature'
+
+jbu@ubuntu:~/git_jbu/docs$ cat ./.git/HEAD
+ref: refs/heads/feature
+
+jbu@ubuntu:~/git_jbu/docs$ cat ./.git/refs/heads/feature
+6b8bbd1a0a7132cb1b24c5d850b43e169e096172
+
+jbu@ubuntu:~/git_jbu/docs$ git commit -m "newfile"
+[feature 57b35d2] newfile
+ 1 file changed, 1 insertion(+)
+ create mode 100644 newfile.txt
+
+jbu@ubuntu:~/git_jbu/docs$ cat ./.git/refs/heads/feature
+57b35d2c3b5b267730a24689253dc12f2f3c4f53
+```
+
+What does a commit look like? It references a tree, a parent commit, and has commit details like author, committer, and commit message.  It hashes to a value.  Therefore even the commit message changes, the commit has to rehash.
+
+```
+jbu@ubuntu:~/git_jbu/docs$ git cat-file -p  57b35
+tree 3eb7b7babbd2ec19a92c3e0578159aac71e7670c
+parent 6b8bbd1a0a7132cb1b24c5d850b43e169e096172
+author julianbui <julian.bui@ntq-solution.com.vn> 1483922969 +0700
+committer julianbui <julian.bui@ntq-solution.com.vn> 1483922969 +0700
+
+newfile
+```
+
+###Demo
+
+`watch -n 1 tree -a`
+
+
