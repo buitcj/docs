@@ -63,15 +63,17 @@ Merge vs. Rebase
 Pros of Rebase:
 * cleaner, linear history that can be traced to project inception
 * no merge commits polluting the history
+* other tools can make better use of the linear history (e.g., `git bisect`)
 
 Cons of Rebase:
 * Doesn't tell you when upstream features were merged, which could affect your feature
+* Upstream branch doesnt know which branch the changes came from or when the changes entered the upstream branch.
 * Rebase modifies the history, so you can lose information
 * Have to remember the golden rule of rebasing, which is never do it on public branches since it will modify the history and the everyone will see that branch appeared to have completely changed and diverged.
 
 ###Fast-foward vs. Non-fast-foward Merge
 
-When you pull an upstream branch, if the upstream branch hadn't been changed, your merge can just be rebased.  This is essentially the same as a rebase.  Your commits will be applied to the tip of the upstream branch and no merge commit will be added.  Consider the pros and cons of merge vs. rebase before doing a fast-foward merge.  In general, people use non-ff because they can pin-point the branch/pull request.
+When you pull or push an upstream branch, if the upstream branch hadn't been changed (i.e., there's nothing between its HEAD and your first commit), then your merge can just be rebased.  This is essentially the same as a rebase.  Your commits will be applied to the tip of the upstream branch and no merge commit will be added.  Consider the pros and cons of merge vs. rebase before doing a fast-foward merge.  In general, people use non-ff because they can pin-point the branch/pull request.
 
 
 Stash
@@ -242,6 +244,40 @@ important, don't delete
 > cat ./.git/lost-found/other/634f2a4b6d3eb45cb771756cac113f920f3393e0 
 important, don't delete
 ```
+
+Navigating the content-addressable filesystem
+==============================================
+
+The plumbing commands can be used to view objects in .git/objects.  They also allow you to view files from other branches in your local git repo.
+
+###Traversing the file system
+
+Dereference a specific branch until a tree (root) is found.
+
+```
+jbu@ubuntu:~/git_jbu/docs$ git cat-file -p master^{tree}
+040000 tree c9c134b29d3cbc9e9cd3bcd7660e3e87ef328cd2    academic
+040000 tree f7d273d172689c7b14cf57e2b537a23fe3b21a10    notes
+040000 tree 8113accd6dbc8ce65247395f352ca6a898c8e7b0    presentations
+```
+
+We found some more trees which are just (sub)directories.  Now let's see what's in one of those.
+
+```
+jbu@ubuntu:~/git_jbu/docs$ git cat-file -p f7d273d172689c7b14cf57e2b537a23fe3b21a10
+100644 blob edd3d1bada1e134f3842edad50f19e5dffef93f5    AlgorithmNotes.pdf
+100644 blob 5496e509b59abe3d7fea7c4a9dc8c73b2f96128a    git_notes.md
+```
+
+Now we've encountered blobs, which are just files.  We can view what's in a file using the same command.
+
+```
+jbu@ubuntu:~/git_jbu/docs$ git cat-file -p 5496e509b59abe3d7fea7c4a9dc8c73b2f96128a
+```
+
+This prints out the file.
+
+We can also repeat the commands for different branches.  Github and bitbucket likely use these plumbing commands to quickly show you what's in those branches without having to check out each branch every time you navigate to a different branch.
 
 Log
 ====
@@ -433,6 +469,26 @@ Upstream is where other features go and will eventually propagate down to your b
 
 Combines (squashes) multiple commits into one.  Very useful when you create temporary commits and commit on top of it and you want to make things cleaner by reducing to a single commit.
 
+###Porcelain and Plumbing
+
+Plumbing refers to the bare pipe.  Porcelain refers to the toilet that is used on top of the bare pipe.  In other words, git plumbing commands are low level commands not meant for most users; in the bathroom nobody uses the bare pipe directly.  Instead, most git users should use porcelain commands meant for normal usage like the toilet instead of the pipe.
+
+####Example plumbing commands
+
+`git hash-object`
+
+`git ls-tree`
+
+`git rev-parse`
+
+`git write-tree`
+
+`git update-index`
+
+###Detached Head
+
+Your branch will be in a detached head if you checkout a reference object that that is not a tag or the HEAD of any branch. `git checkout HEAD^1` will likely put yourself into a detached HEAD state, assuming that your previous commit is not the HEAD of a branch or a tag.
+
 Basics
 =======
 
@@ -454,6 +510,50 @@ Good Reading
 
 Git Internals
 ==============
+
+HEAD (typically) points to a branch.  Branches are just pointers to commits.
+
+```
+jbu@ubuntu:~/git_jbu/docs$ cat ./.git/HEAD
+ref: refs/heads/master
+
+jbu@ubuntu:~/git_jbu/docs$ cat ./.git/refs/heads/master
+6b8bbd1a0a7132cb1b24c5d850b43e169e096172
+
+jbu@ubuntu:~/git_jbu/docs$ git checkout -b feature
+Switched to a new branch 'feature'
+
+jbu@ubuntu:~/git_jbu/docs$ cat ./.git/HEAD
+ref: refs/heads/feature
+
+jbu@ubuntu:~/git_jbu/docs$ cat ./.git/refs/heads/feature
+6b8bbd1a0a7132cb1b24c5d850b43e169e096172
+
+jbu@ubuntu:~/git_jbu/docs$ git commit -m "newfile"
+[feature 57b35d2] newfile
+ 1 file changed, 1 insertion(+)
+ create mode 100644 newfile.txt
+
+jbu@ubuntu:~/git_jbu/docs$ cat ./.git/refs/heads/feature
+57b35d2c3b5b267730a24689253dc12f2f3c4f53
+```
+
+What does a commit look like? It references a tree, a parent commit, and has commit details like author, committer, and commit message.  It hashes to a value.  Therefore even the commit message changes, the commit has to rehash.
+
+```
+jbu@ubuntu:~/git_jbu/docs$ git cat-file -p  57b35
+tree 3eb7b7babbd2ec19a92c3e0578159aac71e7670c
+parent 6b8bbd1a0a7132cb1b24c5d850b43e169e096172
+author julianbui <julian.bui@ntq-solution.com.vn> 1483922969 +0700
+committer julianbui <julian.bui@ntq-solution.com.vn> 1483922969 +0700
+
+newfile
+```
+
+###Demo
+
+`watch -n 1 tree -a`
+
 Must default objects to view
 A change in a blob will change the hashes.  Hash changes propogate to the top level tree and then to the commit.  
 If I share my branch with someone, they ought to have some of the objects already so they don't have to go fetch it again.
@@ -464,3 +564,4 @@ play with `git show --pretty=raw HEAD`
 `git reflog` is like a history so you can go back if you screw up your history
 
 branches are nothing more than commits with names
+
