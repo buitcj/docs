@@ -279,6 +279,11 @@ Difftool: `git difftool HEAD --tool=winmerge --no-prompt`
 
 Merge tool: `git mergetool --tool=meld`
 
+
+###Command line visualization
+
+`git log --oneline --decorate --all --graph` shows all the local branches in pretty printed format
+
 Strange Syntax
 ===============
 
