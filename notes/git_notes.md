@@ -450,6 +450,8 @@ Good Reading
 
 [Viewing tree objects](http://alblue.bandlem.com/2011/08/git-tip-of-week-trees.html)
 
+[Really good git internals](https://www.youtube.com/watch?v=ig5E8CcdM9g)
+
 Git Internals
 ==============
 Must default objects to view
