@@ -1,3 +1,32 @@
+Git Workflows
+=============
+[https://www.atlassian.com/git/tutorials/comparing-workflows](Workflows - Atlassian)
+
+###Centralized Workflow
+
+Central repository is shared by all.  All devs commit to the master branch.  Pushing is done on top of the origin master HEAD, so pulling the latest code is necessary before the push.  Pulling with rebase is preferred here because this is a *linear* history model.
+
+###Feature Branch Workflow
+
+Development occurs in a dedicated feature branch and devs should never commit directly into the master branch.  Developers push committed changes to a feature branch and then making a pull request with a code review to merge the feature branch into master. 
+
+###Gitflow workflow
+
+This is like the Feature Branch Workflow but dedicates roles to different branches for preparing, maintaining, and recording releases.
+
+The master branch stores release history and is meant to be tagged.
+
+The develop branch is an integration branch for feature branches;
+
+A feature branch is to work on a specific feature and is merged into feature - never directly to master.
+
+A release branch is used when all your features are completing.  This branch is meant for polishing and bug fixes that occur to make your product ready for release.  Upon release, the branch is merged back into master and tagged.  This allows a team to focus on fixes and polishing while another team works on features for the next release.
+
+A hotfix branch branches from master and is meant to fix bugs in production code.  This branch is made to quickly patch things and get the fix to the customer.  Fixes get merged back into master and develop.
+
+###Forking workflow
+TODO
+
 Rebase
 ======
 
