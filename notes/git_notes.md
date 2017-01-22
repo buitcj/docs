@@ -338,6 +338,10 @@ Issue: `git add .` is quite overkill and can actually get you in trouble because
 ###Interactive committing
 `git commit --interactive` Note: -i is not for interactive mode
 
+###Interactive and Patch Modes
+
+Some commands have more user friendly, finer grained controls like `git stash`, `git checkout`, `git add`, `git reset`, and others.
+
 ###Visual UI tools
 
 Difftool: `git difftool HEAD --tool=winmerge --no-prompt`
