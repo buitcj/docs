@@ -353,6 +353,19 @@ Merge tool: `git mergetool --tool=meld`
 
 `git log --oneline --decorate --all --graph` shows all the local branches in pretty printed format
 
+Rerere (Reuse Recorded Resolution)
+====================================
+
+[Everything you need to know about rerere](https://medium.com/@porteneuve/fix-conflicts-only-once-with-git-rerere-7d116b2cec67#.2w9tps7fm)
+
+When you fix a conflict, git records the conflict resolution so that when you encounter it again, it will automatically resolve based on your prior resolution.
+
+Commonly, this is used for when you have a feature branch and you merge in the upstream branch just to see if things will break later when it has to be merged upstream.  You fix the conflicts but before you merge upstream you have to revert the merges since the number of useless merge commits is very high.  At the point when the feature branch is finally merged upstream, rerere will use your previously recorded resolutions so that you don't have to fix the conflicts again.
+
+###How to Enable
+
+Set configuration variable `rerere.enabled`
+
 Strange Syntax
 ===============
 
