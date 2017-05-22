@@ -2,15 +2,15 @@ Git Workflows
 =============
 [https://www.atlassian.com/git/tutorials/comparing-workflows](Workflows - Atlassian)
 
-###Centralized Workflow
+### Centralized Workflow
 
 Central repository is shared by all.  All devs commit to the master branch.  Pushing is done on top of the origin master HEAD, so pulling the latest code is necessary before the push.  Pulling with rebase is preferred here because this is a *linear* history model.
 
-###Feature Branch Workflow
+### Feature Branch Workflow
 
 Development occurs in a dedicated feature branch and devs should never commit directly into the master branch.  Developers push committed changes to a feature branch and then making a pull request with a code review to merge the feature branch into master. 
 
-###Gitflow workflow
+### Gitflow workflow
 
 This is like the Feature Branch Workflow but dedicates roles to different branches for preparing, maintaining, and recording releases.
 
@@ -24,7 +24,7 @@ A release branch is used when all your features are completing.  This branch is 
 
 A hotfix branch branches from master and is meant to fix bugs in production code.  This branch is made to quickly patch things and get the fix to the customer.  Fixes get merged back into master and develop.
 
-###Forking workflow
+### Forking workflow
 TODO
 
 Rebase
@@ -36,17 +36,17 @@ Common syntax: `git rebase upstream [branch]` which specifies the "base" branch 
 
 Where the current branch is "topic", `git rebase master` and `git rebase master topic` are equivalent.
 
-###`--onto <newbase>` option
+### `--onto <newbase>` option
 
 Without this option, the --onto newbase is the tip of the upstream branch. 
 
 In the git man page, it is called `--onto <newbase>` but you can think of it as `--onto <graft-point>`.  Matthew brett renames the syntax: `git rebase [--onto <graft-point>] <exclude-from> <include-from>`.  If you don't specify a `<graft-point>` it defaults to the `<exclude-from>`
 
-###Which commits will rebase apply? 
+### Which commits will rebase apply? 
 
 Everything from `<exclude-from>` to `<include-from>`
 
-###Common Usecase #1: Checking in code to the upstream branch
+### Common Usecase #1: Checking in code to the upstream branch
 
 If you want to push your changes remotely but the remote branch has changed, git won't let you push, effectively saying that your branch's HEAD is not up-to-date. 
 
@@ -71,7 +71,7 @@ If you pushed your branch (X and B) then you'd lose branch history since you'd b
 Ex: X -- A -- B 
 ```
 
-###Common Usecase #2: Cleaning up history
+### Common Usecase #2: Cleaning up history
 
 I want to combine two non-consecutive local commits to clean up the history before making commits public:
 
@@ -81,7 +81,7 @@ Delete a commit by using the `drop` keyword
 
 Merge a commit by using `squash` or `fixup` to merge it into the previous commit.
 
-###Common Usecase #3: Adding to something that you already committed but didn't push to the public branch.
+### Common Usecase #3: Adding to something that you already committed but didn't push to the public branch.
 
 Can use `git rebase -i` to squash.
 
@@ -100,7 +100,7 @@ Cons of Rebase:
 * Rebase modifies the history, so you can lose information
 * Have to remember the golden rule of rebasing, which is never do it on public branches since it will modify the history and the everyone will see that branch appeared to have completely changed and diverged.
 
-###Fast-foward vs. Non-fast-foward Merge
+### Fast-foward vs. Non-fast-foward Merge
 
 When you pull or push an upstream branch, if the upstream branch hadn't been changed (i.e., there's nothing between its HEAD and your first commit), then your merge can just be rebased.  This is essentially the same as a rebase.  Your commits will be applied to the tip of the upstream branch and no merge commit will be added.  Consider the pros and cons of merge vs. rebase before doing a fast-foward merge.  In general, people use non-ff because they can pin-point the branch/pull request.
 
@@ -231,15 +231,15 @@ Pre-requisites: Read about the content-addressable filesystem that git implement
 
 Every commit is stored in the .git directory and only cleaned up periodically by running `git gc` automatically for the user which garbage collects.  Likely you can always find the data you thought you lost by finding the missing commit and referencing it with a new branch.  
 
-###Find a missing commit
+### Find a missing commit
 
 You can find a missing/lost/deleted commit in one of two ways:
 
-####1. Reflog
+#### 1. Reflog
 
 Use `git reflog` which tells you the history of where your HEAD was pointing.  Point your HEAD to the commit that was previously reachable.  Now you will see all the commits that were reachable from that HEAD in the log.
 
-####2. Find dangling commits.
+#### 2. Find dangling commits.
 
 Use the `git fsck --full` command which shows all objects that aren't pointed to by another object.  Find the commit object and point a branch HEAD to it.
 
@@ -253,7 +253,7 @@ dangling tree aea790b9a58f6cf6f2804eeac9f0abbe9631e4c9
 dangling blob 7108f7ecb345ee9d0084193f147cdad4d2998293
 ```
 
-###Find a missing staged file
+### Find a missing staged file
 
 If a file was added but not committed, don't worry.  This file was also saved by git into the .git/index directory.
 
@@ -279,7 +279,7 @@ Navigating the content-addressable filesystem
 
 The plumbing commands can be used to view objects in .git/objects.  They also allow you to view files from other branches in your local git repo.
 
-###Traversing the file system
+### Traversing the file system
 
 Dereference a specific branch until a tree (root) is found.
 
@@ -327,7 +327,7 @@ Amend option replaces the tip of the current branch with a new commit that will 
 
 Then source it: `. ~/.bashrc`
 
-###Staging tips
+### Staging tips
 
 Issue: `git add .` is quite overkill and can actually get you in trouble because you blindly add everything.
 
@@ -335,21 +335,21 @@ Issue: `git add .` is quite overkill and can actually get you in trouble because
 
 `git add -p` adds in patch mode which allows you to review each of your changes.
 
-###Interactive committing
+### Interactive committing
 `git commit --interactive` Note: -i is not for interactive mode
 
-###Interactive and Patch Modes
+### Interactive and Patch Modes
 
 Some commands have more user friendly, finer grained controls like `git stash`, `git checkout`, `git add`, `git reset`, and others.
 
-###Visual UI tools
+### Visual UI tools
 
 Difftool: `git difftool HEAD --tool=winmerge --no-prompt`
 
 Merge tool: `git mergetool --tool=meld`
 
 
-###Command line visualization
+### Command line visualization
 
 `git log --oneline --decorate --all --graph` shows all the local branches in pretty printed format
 
@@ -362,7 +362,7 @@ When you fix a conflict, git records the conflict resolution so that when you en
 
 Commonly, this is used for when you have a feature branch and you merge in the upstream branch just to see if things will break later when it has to be merged upstream.  You fix the conflicts but before you merge upstream you have to revert the merges since the number of useless merge commits is very high.  At the point when the feature branch is finally merged upstream, rerere will use your previously recorded resolutions so that you don't have to fix the conflicts again.
 
-###How to Enable
+### How to Enable
 
 Set configuration variable `rerere.enabled`
 
@@ -404,13 +404,13 @@ I = F^   = B^3^    = A^^3^
 J = F^2  = B^3^2   = A^^3^2
 ```
 
-###SHA-1 hash
+### SHA-1 hash
 
 Commands requiring a commit can be specified by the SHA-1 of the commit: `git show a5bec062afe1348b8317651c93cf5049e6b4e55e`
 
 You can also use the partial SHA-1 hash, provided that the partial hash can uniquely identify your commit: `git show a5bec`
 
-###Double dot (..)
+### Double dot (..)
 
 Specifies a range of commits.  "Resolve a range of commits that are reachable from one commit but aren't reachable from another".
 
@@ -428,13 +428,13 @@ Useful command:
 
 `git log origin/master..HEAD` will show you the commits in your local repo but not on the remote master.
 
-###Triple dot (...)
+### Triple dot (...)
 
 "Specifies all the commits that are reachable by either of two references but not by both of them"
 
 In the previous example, `git log master...experiment` would return F E D C as this is the not the set of commits that both references can reach.
 
-###Ordinal (@{n})
+### Ordinal (@{n})
 
 `git reflog` shows the history of how your HEAD was affected recently.  
 
@@ -453,15 +453,15 @@ d921970 HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
 
 You can also specify times like `master@{yesterday}` and `master@{1.week.ago}`
 
-###^@
+### ^@
 
-###^!
+### ^!
 
 
 Git Vocabulary
 ==============
 
-###Tree-ish
+### Tree-ish
 
 "Tree-ish" is a term that refers to any identifier (as specified in the Git revisions documentation) that ultimately leads to a (sub)directory tree (Git refers to directories as "trees" and "tree objects").
 
@@ -498,28 +498,28 @@ Basically it can be a file or folder (folders are files in linux) of a particula
 
 Any identifier leading to a commit object is also a (sub)directory tree object - i.e. the root directory of the commit. Stated another way, every commit-ish identifier is also a tree-ish identifier.
 
-###Blob
+### Blob
 
 This just refers to a file, even text files.
 
-###Tree
+### Tree
 
 Any (sub) directory in the project.
 
-###Upstream Downstream
+### Upstream Downstream
 
 Upstream is where other features go and will eventually propagate down to your branch when you pull.  The other features flow downstream to you.  Your feature branch is the downstream branch because your changes don't affect anything upstream.
 
 
-###Squash
+### Squash
 
 Combines (squashes) multiple commits into one.  Very useful when you create temporary commits and commit on top of it and you want to make things cleaner by reducing to a single commit.
 
-###Porcelain and Plumbing
+### Porcelain and Plumbing
 
 Plumbing refers to the bare pipe.  Porcelain refers to the toilet that is used on top of the bare pipe.  In other words, git plumbing commands are low level commands not meant for most users; in the bathroom nobody uses the bare pipe directly.  Instead, most git users should use porcelain commands meant for normal usage like the toilet instead of the pipe.
 
-####Example plumbing commands
+#### Example plumbing commands
 
 `git hash-object`
 
@@ -531,7 +531,7 @@ Plumbing refers to the bare pipe.  Porcelain refers to the toilet that is used o
 
 `git update-index`
 
-###Detached Head
+### Detached Head
 
 Your branch will be in a detached head if you checkout a reference object that that is not a tag or the HEAD of any branch. `git checkout HEAD^1` will likely put yourself into a detached HEAD state, assuming that your previous commit is not the HEAD of a branch or a tag.
 
@@ -596,7 +596,7 @@ committer julianbui <julian.bui@ntq-solution.com.vn> 1483922969 +0700
 newfile
 ```
 
-###Demo
+### Demo
 
 `watch -n 1 tree -a`
 
