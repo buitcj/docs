@@ -1,6 +1,6 @@
 Git Workflows
 =============
-[https://www.atlassian.com/git/tutorials/comparing-workflows](Workflows - Atlassian)
+[Workflows - Atlassian](https://www.atlassian.com/git/tutorials/comparing-workflows)
 
 ### Centralized Workflow
 
