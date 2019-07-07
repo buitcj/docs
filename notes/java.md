@@ -35,6 +35,20 @@ Java core
 ###How to make a class immutable and what’s the point?
 ###What’s JIT compilation?
 ###What’s new in Java 8 / Java 7? What’s coming in Java 9?
+###Comparable vs. Comparator
+Comparable is an interface you create for a class and it looks like 
+
+        public int compareTo(MyClass otherObject)
+
+Comparator is an object that takes two objects and compares them:
+
+        Comparator<Laptop> c = new Comparator<>() {
+
+            public int Comparator(Laptop l1, Laptop l2) 
+            {
+                ...
+            }
+        }
 
 Hibernate / databases
 ======================
