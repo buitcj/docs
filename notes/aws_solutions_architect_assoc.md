@@ -321,13 +321,69 @@ Two types:
 
 #### Elastic File System Lab
 
+Amazon's File System
+
 Amazon Elastic File storage (EFS) service is for EC2 instances
 
-***Need to fill this out***
+Create/config FSs easily and quickly with growing/shrinking capabilities
+
+Allows you to mount the same EFS volume two multiple EC2 instances at the same time.
+
+Only pay for storage you use
+
+Block based storage NOT object based storage (???)
+
+In this lab, the host mounts the EFS volume to two separate EC2 instances at the /var/www/html dir, and we can see that html resources are shared by two different web servers
 
 #### Lambda
 
+Serverless
+
+Abstract the hardware: We don't care about who is provisioning it and where it is, etc.
+
+EC2 launches 2006 to allow EC2 instances to be created from the command line. IAAS - infrastructure as a service
+
+Elastic Beanstalk: Upload your code and provision the underlying resources for you.  PAAS - Platform as a service.  
+
+Containers: Docker, for instance.
+
+Serverless: Don't need to manage infrastructure, platforms, containers, operating systems, patching, scaling.  All we need to worry about is our code.
+
+Lambda just worries about running code in response to events.
+
+Scaling up: increasing hardware resources
+Scaling out: increasing number of instances like load balancers
+
+How to create a lambda function: Lambda Dashboard -> Create function
+
+There are different lambda triggers.  Here are some of them:
+
+ * API Gateway
+ * CloudFront
+ * CloudWSatch log
+ * Dynamo DB
+ * S3
+ * SNS
+
+A lambda function is invoked PER http request, in the API Gateway scenario.
+
+Lambda is priced per requests
+
+Can't execute more than 5 minutes...But you can chain lambda functions if they're taking too long.
+
+Advantages: No servers, continuous scaling, very cheap
+
+Lambda scales out not up.
+
 #### Serverless webpage
+
+Build a server using lambda and api gateway.  An http request goes to route53, and get a S3 http resource, the http resource has a button that goes to the API gateway and then onto a lambda function.
+
+When creating a lambda function, you can use a simple microservice permissions role, to give your lambda permission to execute.
+
+Host creates a lambda resource that responds to a GET request, python, lambda region, and the code that executes the lambda (just returns a response)
+
+Host creates an S3 bucket for index and error.
 
 #### Serverless Courses on ACG
 
@@ -523,7 +579,7 @@ Amazon's NoSQL DB.  Supports docs and key-value.  Single-digit millisecond laten
 
 SSD Storage; Spread across 3 facilitie; Eventual Consistent Reads; Strongly Consistent Reads.
 
-Dynamo DB appears to be distinct from RDS!!!
+Dynamo DB appears to be distinct from RDS!!!13200 Woodland Park Road
 
 Easy to scale because it has push-button-scaling.  You can monitor your provisioned and consumed read/write units.  You can adjust your provisioning with a push of a button without downtown.  RDS will experience downtown when you change instance size classes. 
 
@@ -734,7 +790,7 @@ Stored using **amazon cloudwatch logs**
 
 Can be created at 3 levels:
 
- 1. VPC
+ 1. VPCar
  2. Subnet
  3. Network interface level
 
