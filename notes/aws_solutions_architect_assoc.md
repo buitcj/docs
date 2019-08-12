@@ -579,7 +579,7 @@ Amazon's NoSQL DB.  Supports docs and key-value.  Single-digit millisecond laten
 
 SSD Storage; Spread across 3 facilitie; Eventual Consistent Reads; Strongly Consistent Reads.
 
-Dynamo DB appears to be distinct from RDS!!!13200 Woodland Park Road
+Dynamo DB appears to be distinct from RDS!!!
 
 Easy to scale because it has push-button-scaling.  You can monitor your provisioned and consumed read/write units.  You can adjust your provisioning with a push of a button without downtown.  RDS will experience downtown when you change instance size classes. 
 
@@ -892,8 +892,55 @@ VPC Flow Logs
 
 #### SQS
 
+Web service for a pull-based message queue
+
+A consumer of the message of SQS may work on a message and marked as "invisible" and after a timeout, if the message wasn't finished, it will be put back on the queue.  The timeout is called the SQS Visibility timeout which defaults to 30 seconds but max is 12 hours. This is timeout is necessary b/c if the consumer crashes, the query/message can still be eventually processed.
+
+Can create an autoscaling group that will scale with the fullness of the message queue
+
+Queue Types:
+
+ 1. standard
+ 2. fifo
+
+Standard queue (default): unlimited txns per sec.  Might be out of order / best effort ordering
+
+FIFO queues: Order is guaranteed, 300 txns per second (TPS)
+
+Messages are 256KB in size
+
+SQS guarantees messages will be processed at least once
+
+Default retention of a message is 4 days
+
+Short Polling - message returned immately even if no messages are in the queue
+
+Long polling - queue polled periodicalyl when a message is in the queue or the timeout is reached
+
 #### SWF
 
+Simple Workflow Service
+
+Coordates work across distributed application components.
+
+Must know about two entities:
+
+ 1. Workers are programms that interact with SWF that get and process tasks and then return the results
+ 2. Deciders are programs that control the coordination of tasks, concurrency, 
+
+SWF brokers manage interactions between workers and deciders
+
+SWF guarantees that tasks are only assigned once and is never duplicated.  SWF keeps track of and manages the task state.
+
+Domains:
+ * Workflow and activity types and the workflow execution itself are scoped to a domain.  The domain is a container. Domains isolate a set of types, executions, and tasks lists from others within the same account.
+ * Need to register a domain via SWF console
+
+The key difference between SWS and SQS:
+ 1. t SQS may have duplicate messages whereas SWF won't.
+ 2. SWF is task oriented, SQS is message oriented
+ 3. SWF keeps track of tasks and events.  SQS requires you to implement app-level tracking of tasks and events.
+ 
 #### SNS
 
 #### Elastic Transcoder
