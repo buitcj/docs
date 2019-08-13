@@ -903,7 +903,10 @@ Queue Types:
  1. standard
  2. fifo
 
-Standard queue (default): unlimited txns per sec.  Might be out of order / best effort ordering
+Standard queue (default): unlimited txns per sec.  Might be out of riffs on China
+Facing pressure from businesses, the White House is delaying tariffs on Chinese-made consumer electronics and some other goods until December.
+The administration said that a new 10 percent tariff on roughly half the Chinese goods imported into the United States would still take effect on Sept. 1.
+order / best effort ordering
 
 FIFO queues: Order is guaranteed, 300 txns per second (TPS)
 
@@ -937,15 +940,83 @@ Domains:
  * Need to register a domain via SWF console
 
 The key difference between SWS and SQS:
- 1. t SQS may have duplicate messages whereas SWF won't.
+ 1. SQS may have duplicate messages whereas SWF won't.
  2. SWF is task oriented, SQS is message oriented
  3. SWF keeps track of tasks and events.  SQS requires you to implement app-level tracking of tasks and events.
  
 #### SNS
 
+Simple Notification Service
+
+Publish notifications from an app
+
+Pub-sub messaging - notifications delivered to clients using a push
+
+Can tie autoscaling events or cloudwatch events to it
+
+Remember that SQS pulls from the event queue and SNS pushes out
+
+Can also deliver texts, emails, or to SQS, or to HTTP endpoints
+
+Messages are redundantly stored across multiple AZs
+
+Topic: Group multiple receipients for dynamic subscription to the same notification.  Publishing to a topic will deliver copies of the message to each subscriber
+
+Instantaneous push delivery (no polling)
+
+SNS vs. SQS
+
+ * Both are messaging services
+ * SNS : Push
+ * SQS : Pull
+
+SNS Pricing: $0.50 per 1M SNS requests
+
+Delivery pricing: HTTP is cheaper than SMS which is cheaper than Email
+
 #### Elastic Transcoder
+
+Media transcoder in the cloud.  
+
+Converts media to other formats.
+
+Pay by minutes of transcoding and resolution of transcoding
 
 #### API Gateway
 
+Pubhslih and monitor APIs.  Acts as a front door for applications to access data/log/functionality from your back end service
+
+API Caching: speeds up repsonse rate of API gateway.  Caches responses from your endpoint for a specified TTL duration and will use them on consecutive requests.
+
+Can scale automatically
+
+Can throttle requests for DDoS
+
+Can connect to cloudwatch to log requests
+
+Same origin policy: web browser permits scripts contained in a first webpage to access data in a second webpage, but only if both web pages have the same origin (ie same domain name).
+
+Cross-Origin Resource Sharing (CORS): remove server can relax the same-origin policy.  Allows restricted resources on a webpage to be requested from another domain outside the domain from which the first resource was served.  Error looks like "Origin policy cannot be read at the remote resource?"
+
+
 #### Kinesis
+
+Streaming data: data that is generated continuously by many data sources (eg stock prices, game data, purchases, social network data, geospatial data)
+
+Kenesis is a platform to send your data to..  Allows you to load and analyze stream data.
+
+Three core services:
+ * Kinesis Streams
+ * Kineses Firehose
+ * Kinese Analytics
+
+Kinesis Streams: Producers push data to the kinesis streams, where they are stored in shards for 7 day retention.  EC2 consumers will use the data and then possibly store the data in S3, EMR, redshift, etc.  Capacity of stream is a function of how many shards you specify per stream.
+
+Kinesis Firehose: Producers push data kinesis firehose.  You dont have to worry about shards.  No data retention.  Lambda uses the data immediately or it's pushed to the database, or elastic search, etc.  Consumption is optional and automatic.
+
+Kinesis Analytics: Allows you to use SQL queries on your kinesis streams or firehose.    Then you can push the analyzed data to s3, redshift, elasticsearch.
+
+Questions specifying shards are only pertinent to kinesis streams.
+
+
 
