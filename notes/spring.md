@@ -21,6 +21,15 @@ Singletons are created at startup
 
 Prototypes are created only when the bean is asked for.
 
+### Common annotations
+
+@Component marks class as a bean for component scanning
+@Repository is a speicalized version of @Component that marks something as a DAO
+@Service is the same as @Component but it also specifies intent
+@Controller marks a class as a Spring Web MVC controller.  Allows us to use @RequestMapping
+
+@Bean is different from @Component in that @Bean is a method-level annotation whereas @Component is a class-level annotation.  Generally you use @Bean for methods that will return an object that you want spring to register as a bean in application context.  You would do this if you component scanning is not an option, for example, wiring components from 3rd party libraries that you cannot annotate.
+
 ### Spring Boot
 
 Focus on convention over configuration by setting up the boilerplate and common configs for you
