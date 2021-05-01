@@ -1,0 +1,55 @@
+ff() {
+    echo "find ./ -iname \"*$@*\""
+    find ./ -iname "*$1*"
+}
+
+gg() {
+    echo "grep -i -I -R \"$@\" ./"
+    grep -i -I -R "$1" ./
+}
+
+ggt() {
+    find ./ -iname "*.$1" | xargs grep -l "$2"
+}
+
+# greps the commit log
+glg() {
+    echo "git log --grep=\"$1\" ./"
+    git log --grep="$1" ./
+}
+
+glpg() {
+    echo "git log -p -S \"$1\" ./"
+    git log -p -S "$1" ./
+}
+
+parse_git_branch() {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+export PS1="\W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export FZF_DEFAULT_OPS="--extended"
+
+fshow() {
+  git log --graph --color=always \
+      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+      --bind "ctrl-m:execute:
+                (grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                {}
+FZF-EOF"
+}
+
+# START: MAKE FZF RESPECT GITIGNORE
+
+# Setting fd as the default source for fzf
+export FZF_DEFAULT_COMMAND='fd --type f'
+
+# To apply the command to CTRL-T as well
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+# END: MAKE FZF RESPECT GITIGNORE
+
