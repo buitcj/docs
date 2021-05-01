@@ -15,11 +15,11 @@ set incsearch
 set colorcolumn=80
 
 "Goto file while in normal mode
-map <C-g> <Esc><Esc>:Files!<CR>
+map <C-t> <Esc><Esc>:Files!<CR>
 "Find text in file while in insert mode
-inoremap <C-g> <Esc><Esc>:Blines!<CR>
+inoremap <C-t> <Esc><Esc>:BLines!<CR>
 "Open git info for this file
-map <C-r> <Esc><Esc>:BCommits!<CR>
+map <C-g> <Esc><Esc>:BCommits!<CR>
 
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf'
