@@ -5,11 +5,11 @@ ff() {
 
 gg() {
     echo "grep -i -I -R \"$@\" ./"
-    grep -i -I -R "$1" ./
+    grep -i -I -R "$1" ./ 2> /dev/null
 }
 
 ggt() {
-    find ./ -iname "*.$1" | xargs grep -l "$2"
+    find ./ -iname "*.$1" | xargs grep "$2" 2> /dev/null
 }
 
 # greps the commit log
