@@ -7,8 +7,9 @@ set shiftwidth=2
 set expandtab
 set smartindent
 set nu
+set ruler
+set ic
 
-set smartcase
 set noswapfile
 set incsearch
 
