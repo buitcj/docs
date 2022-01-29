@@ -27,6 +27,11 @@ parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
+
+function togif() {
+  ffmpeg -ss $3 -t $4 -i $1 -vf "fps=10,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 $2
+}
+
 export PS1="\W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
